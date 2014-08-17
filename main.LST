@@ -1,0 +1,249 @@
+C51 COMPILER V9.01   MAIN                                                                  07/17/2014 01:36:50 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN main.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE main.c BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          /**
+   2            ******************************************************************************
+   3            * Ten Tep             :                 main.h
+   4            * Tac Gia             :               LE ANH QUANG
+   5            * Cong Ty             :                       MinhHaGroup
+   6            *     Website         :                       MinhHaGroup.com
+   7            * Phien Ban   :                       V1.0.0
+   8            * Ngay                        :       19-10-2012
+   9            * Tom Tat   :     Chuong trinh chinh, thuc hien cac chuc nang cua KIT89s52 V3
+  10            *           
+  11            *
+  12            ******************************************************************************
+  13            * Chu Y               :
+  14            *                                                      
+  15            ******************************************************************************
+  16            */
+  17                  
+  18          
+  19          #include <main.h>       
+  20          #include <var.h>
+  21          
+  22          void main()
+  23          {
+  24   1              unsigned char hour,minute,second,day,date,month,year;
+  25   1              lcd1602_init();
+  26   1              lcd1602_clear();
+  27   1              lcd1602_gotoxy(0,0);
+  28   1              lcd1602_puts("  THALEGROUP");
+  29   1              lcd1602_gotoxy(0,1);
+  30   1              lcd1602_puts(" TEST KIT 89S52"); 
+  31   1      
+  32   1      
+  33   1      while(1)
+  34   1      {
+  35   2              KEY = mtp_quetphim();
+  36   2              
+  37   2      
+  38   2      // AN SW0: TEST MA TRAN BAN PHIM ==============================================
+  39   2              if(KEY=='0')    
+  40   2              {
+  41   3                      lcd1602_init();
+  42   3                      lcd1602_clear();
+  43   3                      lcd1602_gotoxy(0,0);
+  44   3                      while(1)
+  45   3                      {
+  46   4                              KEY = mtp_quetphim();
+  47   4                              if(KEY)
+  48   4                              {
+  49   5                                      lcd1602_putchar(KEY);
+  50   5                              }
+  51   4                      }
+  52   3              }
+  53   2      
+  54   2      if(KEY=='1')
+  55   2      {
+C51 COMPILER V9.01   MAIN                                                                  07/17/2014 01:36:50 PAGE 2   
+
+  56   3              unsigned int k;
+  57   3          lcd1602_init();
+  58   3              sprintf(Lcd_Buff,"TEST KEY DON");
+  59   3              lcd1602_gotoxy(0,0);
+  60   3          lcd1602_puts(Lcd_Buff);
+  61   3          while(1)
+  62   3          {
+  63   4              k=get_key();
+  64   4              if(k)
+  65   4              {
+  66   5                  sprintf(str,"KEY=%2u",k);
+  67   5                  lcd1602_gotoxy(0,1);
+  68   5                  lcd1602_puts(str);
+  69   5              }
+  70   4          }
+  71   3      }
+  72   2      
+  73   2      // AN SW1: TEST LED DON ========================================================        
+  74   2              if(KEY=='2')    // SW1: TEST LED DON
+  75   2              {
+  76   3                      while(1)
+  77   3                      {
+  78   4                      for (i=0;i<8;i++)
+  79   4                      {
+  80   5                              LED_DON = ~(0x80>>i);
+  81   5                              delay_ms(300);
+  82   5                      }
+  83   4                      }
+  84   3              }
+  85   2      
+  86   2      // AN SW2: TEST COI CHIP & RELAY ================================================                       
+  87   2              if(KEY=='3')    
+  88   2              {
+  89   3                      COI = 0;
+  90   3                      RELAY = 0;
+  91   3                      //FLAG = 0;
+  92   3                      while(1)
+  93   3                      {
+  94   4                              /*
+  95   4                              if(!KEY0)               // AN SW16
+  96   4                              {
+  97   4                                      delay_ms(3000);
+  98   4                                      COI=~COI;               
+  99   4                                      RELAY =~RELAY ;
+ 100   4                                      delay_ms(10000);
+ 101   4                                      //TODO
+ 102   4                                      KEY0 = 1;
+ 103   4                                      if(!KEY0)
+ 104   4                                      {
+ 105   4                                              while(!KEY0);
+ 106   4                                              COI=~COI;               
+ 107   4                                              RELAY =~RELAY ;
+ 108   4                                              delay_ms(3000);
+ 109   4                                      }
+ 110   4                                      
+ 111   4                              }
+ 112   4                              */
+ 113   4                              if(COI) {
+ 114   5                                      COI=~COI;               
+ 115   5                                      RELAY =~RELAY ;
+ 116   5                                      lcd1602_init();
+ 117   5                                      sprintf(Lcd_Buff,"WAIT 10s");
+C51 COMPILER V9.01   MAIN                                                                  07/17/2014 01:36:50 PAGE 3   
+
+ 118   5                                      lcd1602_gotoxy(0,0);
+ 119   5                                  lcd1602_puts(Lcd_Buff);     
+ 120   5                              //      LED7_DATA = 0;
+ 121   5                              //      LED7_SEG = 0x0077; //0x0A<<3; 10s
+ 122   5                                      delay_ms(9000);                 
+ 123   5                              } else { 
+ 124   5                                      COI=~COI;               
+ 125   5                                      RELAY =~RELAY ;
+ 126   5                                      lcd1602_init();
+ 127   5                                      sprintf(Lcd_Buff,"WAIT 3s");
+ 128   5                                      lcd1602_gotoxy(0,0);
+ 129   5                                  lcd1602_puts(Lcd_Buff);
+ 130   5                              //      LED7_DATA = 3;
+ 131   5                              //      LED7_SEG = 0x0079; //0x0003<<4; 
+ 132   5                                      delay_ms(2700);
+ 133   5                              }
+ 134   4                      }
+ 135   3              }
+ 136   2              
+ 137   2      // AN SW3: TEST DS18B20 =========================================================       
+ 138   2              if(KEY=='4')    
+ 139   2              {
+ 140   3                      lcd1602_init();
+ 141   3                      lcd1602_clear();
+ 142   3                      while(1)
+ 143   3                      {
+ 144   4                              Nhiet_Do = ds18b20_readtemp();          
+ 145   4                              sprintf(Lcd_Buff," TEMP: %2.2f^C",Nhiet_Do);
+ 146   4                              lcd1602_gotoxy(0,0);
+ 147   4                              lcd1602_puts(Lcd_Buff);
+ 148   4                              delay_ms(300);
+ 149   4                      }
+ 150   3              }
+ 151   2              
+ 152   2      // AN SW3: TEST LED7 THANH ======================================================       
+ 153   2              if(KEY=='5')    
+ 154   2              {
+ 155   3                              while(1)
+ 156   3                              {
+ 157   4                              LED7_DATA=0;
+ 158   4                              
+ 159   4                              for (i=0;i<2;i++)
+ 160   4                              {
+ 161   5                                      LED7_SEG= ~(0x80>>6);
+ 162   5                                      //delay_ms(300);
+ 163   5                              }
+ 164   4                              
+ 165   4                              /*
+ 166   4                              LED7_SEG=0;
+ 167   4                              for (i=0;i<2;i++)
+ 168   4                              {
+ 169   4                                      LED7_DATA= ~(0x01<<i);
+ 170   4                                      delay_ms(300);
+ 171   4                              } */
+ 172   4                          }
+ 173   3              }
+ 174   2      
+ 175   2      // AN SW3: TEST UART =============================================================                      
+ 176   2              if(KEY=='6')    
+ 177   2              {
+ 178   3                              UART_Init();
+ 179   3                              lcd1602_init();
+C51 COMPILER V9.01   MAIN                                                                  07/17/2014 01:36:50 PAGE 4   
+
+ 180   3                              lcd1602_clear();
+ 181   3                              EA=1;
+ 182   3                              UART_Puts("MINHHAGROUP");
+ 183   3                              
+ 184   3                              while(1)
+ 185   3                              {
+ 186   4                                  Uart_char = UART_GetChar();
+ 187   4                                      if(Uart_char)
+ 188   4                                      {
+ 189   5                                      //UART_PutChar(Uart_char);
+ 190   5                                      lcd1602_gotoxy(3,1);
+ 191   5                                      lcd1602_putchar(Uart_char);
+ 192   5                                      }
+ 193   4                              }
+ 194   3              }
+ 195   2              
+ 196   2      //=============================================================================         
+ 197   2              if(KEY=='7')    // SW18: TEST DS1302
+ 198   2              { 
+ 199   3                              lcd1602_init();
+ 200   3                              lcd1602_clear();
+ 201   3                              DS1302_Init();  
+ 202   3                              DS1302_SetTime(14,00,00);
+ 203   3                      DS1302_SetDate(6,7,5,13); 
+ 204   3                              while(1)
+ 205   3                              {  
+ 206   4                                      DS1302_GetTime(&hour,&minute,&second);
+ 207   4                                      DS1302_GetDate(&day, &date, &month, &year);
+ 208   4                                      sprintf(Lcd_Buff,"%2u:%2u:%2u",(unsigned int)hour,(unsigned int)minute,(unsigned int)second);
+ 209   4                                      lcd1602_gotoxy(0,0);
+ 210   4                                      lcd1602_puts(Lcd_Buff);
+ 211   4                                      sprintf(Lcd_Buff,"%2u:%2u:20%u",(unsigned int)date,(unsigned int)month,(unsigned int)year);
+ 212   4                                      lcd1602_gotoxy(0,1);
+ 213   4                                      lcd1602_puts(Lcd_Buff);
+ 214   4                                      delay_ms(250);
+ 215   4                              }       
+ 216   3                      }
+ 217   2              }
+ 218   1      }
+ 219          
+ 220          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    682    ----
+   CONSTANT SIZE    =    119    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     57       9
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,10 @@
+"main.obj",
+"delay.obj",
+"ds18b20.obj",
+"lcd1602.obj",
+"mtp4x4.obj",
+"uart.obj",
+"ds1302.obj",
+"key.obj" 
+TO "main" 
+RAMSIZE(256) 
