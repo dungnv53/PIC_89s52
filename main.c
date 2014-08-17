@@ -179,7 +179,7 @@ if(KEY=='1')
 			lcd1602_init();
 			lcd1602_clear();
 			EA=1;
-			UART_Puts("MINHHAGROUP");
+			UART_Puts("Prat&Whitney");
 			
 			while(1)
 			{
